@@ -10,3 +10,4 @@ io\spring\guides\gs_producing_web_service\Country.class
 io\spring\guides\gs_producing_web_service\GetCountryRequest.class
 io\spring\guides\gs_producing_web_service\package-info.class
 io\spring\guides\gs_producing_web_service\Currency.class
+com\example\producingwebservice\AddCountryEndpoint.class
