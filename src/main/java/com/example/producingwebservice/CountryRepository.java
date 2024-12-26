@@ -52,7 +52,4 @@ public class CountryRepository {
 		Assert.notNull(name, "The country's name must not be null");
 		return countries.get(name);
 	}
-	public void addCountry(Country country) {
-		countries.put(country.getName(), country);
-    }
 }
