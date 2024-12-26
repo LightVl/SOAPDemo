@@ -20,7 +20,7 @@
     <xs:element name="addCountryRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
+                <xs:element name="country" type="tns:country"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -28,7 +28,7 @@
     <xs:element name="addCountryResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="country" type="tns:country"/>
+                <xs:element name="result" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
