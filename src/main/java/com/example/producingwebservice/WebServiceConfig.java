@@ -1,6 +1,5 @@
 package com.example.producingwebservice;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
-	@Bean(name = "ws")
+	@Bean
 	public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
@@ -25,7 +24,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	}
 
 	@Bean(name = "countries")
-	public DefaultWsdl11Definition defaultWsdl11Definition(@Qualifier("schema1")XsdSchema countriesSchema) {
+	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("CountriesPort");
 		wsdl11Definition.setLocationUri("/ws");
@@ -34,7 +33,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		return wsdl11Definition;
 	}
 
-	@Bean(name = "add")
+	@Bean
 	public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet2(ApplicationContext applicationContext) {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
@@ -43,21 +42,17 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	}
 
 	@Bean(name = "addcountries")
-	public DefaultWsdl11Definition defaultWsdl11Definition2(@Qualifier("schema2")XsdSchema countriesSchema2) {
+	public DefaultWsdl11Definition defaultWsdl11Definition2(XsdSchema countriesSchema) {
 		DefaultWsdl11Definition wsdl11Definition2 = new DefaultWsdl11Definition();
 		wsdl11Definition2.setPortTypeName("CountriesPort");
 		wsdl11Definition2.setLocationUri("/add");
 		wsdl11Definition2.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
-		wsdl11Definition2.setSchema(countriesSchema2);
+		wsdl11Definition2.setSchema(countriesSchema);
 		return wsdl11Definition2;
 	}
 
-	@Bean(name = "schema1")
+	@Bean
 	public XsdSchema countriesSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("countries.xsd"));
-	}
-	@Bean(name = "schema2")
-	public XsdSchema countriesSchema2() {
 		return new SimpleXsdSchema(new ClassPathResource("countries.xsd"));
 	}
 }

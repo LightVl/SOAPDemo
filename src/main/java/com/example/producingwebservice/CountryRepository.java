@@ -48,11 +48,11 @@ public class CountryRepository {
 		countries.put(ru.getName(), ru);
 	}
 
-	public static Country findCountry(String name) {
+	public Country findCountry(String name) {
 		Assert.notNull(name, "The country's name must not be null");
 		return countries.get(name);
 	}
-	public static void addCountry(Country country) {
+	public void addCountry(Country country) {
 		countries.put(country.getName(), country);
     }
 }
