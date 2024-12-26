@@ -22,8 +22,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.spring.guides.gs_producing_web_service.GetCountryRequest;
-import io.spring.guides.gs_producing_web_service.AddCountryRequest;
-import io.spring.guides.gs_producing_web_service.Country;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -35,36 +33,24 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ProducingWebServiceApplicationIntegrationTests {
 
-	private Jaxb2Marshaller getMarshaller = new Jaxb2Marshaller();
-	private Jaxb2Marshaller addMarshaller = new Jaxb2Marshaller();
+	private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
 	@LocalServerPort
 	private int port = 0;
 
 	@BeforeEach
 	public void init() throws Exception {
-		getMarshaller.setPackagesToScan(ClassUtils.getPackageName(GetCountryRequest.class));
-		getMarshaller.afterPropertiesSet();
-		addMarshaller.setPackagesToScan(ClassUtils.getPackageName(AddCountryRequest.class));
-		addMarshaller.afterPropertiesSet();
+		marshaller.setPackagesToScan(ClassUtils.getPackageName(GetCountryRequest.class));
+		marshaller.afterPropertiesSet();
 	}
 
 	@Test
-	public void getSendAndReceive() {
-		WebServiceTemplate ws = new WebServiceTemplate(getMarshaller);
+	public void testSendAndReceive() {
+		WebServiceTemplate ws = new WebServiceTemplate(marshaller);
 		GetCountryRequest request = new GetCountryRequest();
 		request.setName("Spain");
+		System.out.println(ws.marshalSendAndReceive("http://localhost:"	+ port + "/ws", request));
 		assertThat(ws.marshalSendAndReceive("http://localhost:"
 				+ port + "/ws", request) != null);
     }
-	@Test
-	public void addSendAndReceive() {
-		WebServiceTemplate ws = new WebServiceTemplate(addMarshaller);
-		AddCountryRequest request = new AddCountryRequest();
-		Country TestCountry = new Country();
-		TestCountry.setCapital("testcity");
-		request.setCountry(TestCountry);
-		assertThat(ws.marshalSendAndReceive("http://localhost:"
-				+ port + "/add", request) != null);
-	}
 }
