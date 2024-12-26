@@ -34,6 +34,24 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	}
 
 	@Bean
+	public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet2(ApplicationContext applicationContext) {
+		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
+		servlet.setApplicationContext(applicationContext);
+		servlet.setTransformWsdlLocations(true);
+		return new ServletRegistrationBean<>(servlet, "/add/*");
+	}
+
+	@Bean(name = "addcountries")
+	public DefaultWsdl11Definition defaultWsdl11Definition2(XsdSchema countriesSchema) {
+		DefaultWsdl11Definition wsdl11Definition2 = new DefaultWsdl11Definition();
+		wsdl11Definition2.setPortTypeName("CountriesPort");
+		wsdl11Definition2.setLocationUri("/add");
+		wsdl11Definition2.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+		wsdl11Definition2.setSchema(countriesSchema);
+		return wsdl11Definition2;
+	}
+
+	@Bean
 	public XsdSchema countriesSchema() {
 		return new SimpleXsdSchema(new ClassPathResource("countries.xsd"));
 	}
